@@ -57,7 +57,7 @@ def dashboard():
     
     password = request.args.get('password')
     
-    if password != "Safehome2026":
+    if password != "SafeHome2026":
         return "<h1>Unauthorized Access</h1><p>You do not have permission to view corporate leads.</p>", 403
 
     conn = get_db_connection()
