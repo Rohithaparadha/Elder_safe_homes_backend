@@ -54,11 +54,16 @@ def submit_request():
 # Admin Dashboard to view leads collected securely
 @app.route('/admin/dashboard')
 def dashboard():
+    
+    password = request.args.get('password')
+    
+    if password != "Safehome2026":
+        return "<h1>Unauthorized Access</h1><p>You do not have permission to view corporate leads.</p>", 403
+
     conn = get_db_connection()
     leads = conn.execute('SELECT * FROM leads ORDER BY created_at DESC').fetchall()
     conn.close()
     return render_template('dashboard.html', leads=leads)
-
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
