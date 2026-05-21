@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elder-Safe Homes | Don't Let Them Fall | Hyderabad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght=0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght=300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --teal: #2a7f8a; --teal-dark: #1b5c65; --teal-light: #e0f4f6; --teal-mid: #3a9aaa;
+      --navy: #1a2d4a; --cream: #faf9f6; --silver: #b0bec5; --gold: #c9a227;
+      --text-dark: #1a2d4a; --text-mid: #3d5068; --text-muted: #6b8199; --white: #ffffff;
+      --border: rgba(42,127,138,0.15); --wa-green: #25D366;
+    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-dark); background: var(--cream); overflow-x: hidden; }
+    
+    /* Notification Alerts */
+    .flash-messages { width: 100%; max-width: 500px; margin: 0 auto 1.5rem; }
+    .alert { padding: 12px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; text-align: center; margin-bottom: 10px; }
+    .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+    .wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; align-items: center; gap: 10px; background: var(--wa-green); color: white; text-decoration: none; padding: 13px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 24px rgba(37,211,102,0.4); }
+    nav { background: var(--navy); padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 68px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-img { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--silver); object-fit: cover; }
+    .nav-brand-name { font-family: 'Merriweather', serif; font-size: 15px; font-weight: 700; color: white; line-height: 1.1; }
+    .nav-brand-name span { display: block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 300; color: var(--teal-mid); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; }
+    .nav-cta { background: var(--teal); color: white !important; padding: 8px 18px; border-radius: 24px; font-size: 13px; font-weight: 500; border: 1px solid var(--teal-mid); }
+    
+    .hero { background: var(--navy); padding: 5rem 2.5rem; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; min-height: 540px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(42,127,138,0.2); color: var(--teal-mid); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; padding: 5px 14px; border-radius: 20px; margin-bottom: 1.25rem; }
+    .hero-title { font-family: 'Merriweather', serif; font-size: 42px; font-weight: 700; color: white; line-height: 1.2; margin-bottom: 0.5rem; }
+    .hero-title em { font-style: italic; color: var(--teal-mid); }
+    .hero-tagline-line { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+    .tagline-dash { flex: 1; max-width: 40px; height: 2px; background: var(--gold); }
+    .hero-tagline { font-size: 13px; color: var(--gold); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
+    .hero-subtitle { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 1.5rem; max-width: 420px; }
+    .hero-sub-tagline { display: inline-block; background: var(--teal); color: white; font-size: 13px; font-weight: 500; padding: 8px 20px; border-radius: 30px; margin-bottom: 2rem; }
+    .btn-teal { background: var(--teal); color: white; padding: 13px 26px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; border: none; }
+    .btn-outline-w { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.35); padding: 13px 26px; border-radius: 30px; font-size: 14px; text-decoration: none; }
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    .hero-stat-num { font-family: 'Merriweather', serif; font-size: 28px; font-weight: 700; color: white; }
+    .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+    .hero-banner-img { width: 100%; max-width: 440px; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.3); border: 3px solid rgba(255,255,255,0.1); }
+
+    .trust-bar { background: var(--teal-dark); padding: 1rem 2.5rem; display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    .trust-item i { color: var(--teal-mid); }
+
+    section { padding: 5rem 2.5rem; }
+    .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--teal); font-weight: 600; margin-bottom: 0.4rem; }
+    .section-title { font-family: 'Merriweather', serif; font-size: 30px; font-weight: 700; color: var(--text-dark); line-height: 1.3; }
+    .section-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; max-width: 520px; }
+    .section-header { margin-bottom: 3rem; }
+
+    .services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; }
+    .service-card { background: var(--cream); border-radius: 14px; padding: 1.5rem; border: 1px solid var(--border); text-align: center; }
+    .service-icon { width: 52px; height: 52px; background: var(--teal-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: var(--teal-dark); font-size: 24px; }
+    .service-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .service-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+    .about { background: var(--cream); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .about-promise { background: var(--navy); border-radius: 16px; padding: 2rem; }
+    .about-promise-title { font-family: 'Merriweather', serif; font-size: 19px; font-weight: 700; color: white; margin-bottom: 1.5rem; }
+    .promise-item { display: flex; align-items: flex-start; gap: 12px; padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .promise-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--teal); display: flex; align-items: center; justify-content: center; color: white; }
+    .promise-text { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+    .about-para { font-size: 14px; color: var(--text-mid); line-height: 1.8; margin-bottom: 1rem; }
+    .about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.5rem; }
+    .value-tag { display: flex; align-items: center; gap: 8px; background: var(--teal-light); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--teal-dark); }
+
+    .testimonials { background: var(--white); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+    .testimonial-card { background: var(--cream); border-radius: 14px; padding: 1.5rem; border: 1px solid var(--border); }
+    .stars { color: var(--gold); font-size: 14px; margin-bottom: 0.75rem; }
+    .testimonial-text { font-size: 13px; color: var(--text-mid); font-style: italic; margin-bottom: 1rem; }
+    .testimonial-author { display: flex; align-items: center; gap: 10px; }
+    .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; }
+    .author-name { font-size: 13px; font-weight: 600; }
+    .author-rel { font-size: 11px; color: var(--text-muted); }
+
+    .contact { background: var(--cream); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .contact-info-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1.5rem; }
+    .contact-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--teal); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+    .contact-label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .contact-value { font-size: 14px; font-weight: 500; }
+    
+    .contact-card-form { background: var(--white); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); }
+    .contact-form-group { margin-bottom: 1.25rem; }
+    .contact-form-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
+    .contact-form-group input, .contact-form-group textarea, .contact-form-group select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--cream); font-size: 13px; color: var(--text-dark); outline: none; font-family: inherit; }
+    .contact-form-group input:focus, .contact-form-group textarea:focus, .contact-form-group select:focus { border-color: var(--teal); background: var(--white); }
+    .btn-submit { width: 100%; background: var(--navy); color: var(--white); padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
+    .btn-submit:hover { background: var(--teal); }
+
+    .map-wrap { border-radius: 14px; overflow: hidden; border: 1.5px solid var(--border); margin-top: 1.5rem; height: 240px; }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+    .instagram-strip { padding: 1rem 2.5rem; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; background: linear-gradient(135deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d); color: white;}
+    .ig-link { color: white; text-decoration: none; font-weight: 700; }
+    footer { background: var(--navy); padding: 3.5rem 2.5rem 2rem; color: rgba(255,255,255,0.45); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+    .footer-brand { font-family: 'Merriweather', serif; font-size: 18px; font-weight: 700; color: white; }
+    .footer-tagline { font-size: 11px; color: var(--teal-mid); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.9rem; }
+    .footer-heading { font-size: 10px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1rem; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .footer-promise { display: flex; gap: 10px; color: var(--teal-mid); font-weight: 500; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-right { order: -1; }
+      .about-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="wa-float" href="https://wa.me/918897978170?text=Hello%20Elder-Safe%20Homes" target="_blank">
+    <i class="ti ti-brand-whatsapp"></i> Chat on WhatsApp
+  </a>
+
+  <nav>
+    <a class="nav-logo" href="#">
+      <img src="{{ url_for('static', filename='IMG-20260520-WA0002.jpg') }}" alt="Logo" class="logo-img" onerror="this.style.display='none';">
+      <div class="nav-brand-name">Elder-Safe Homes<span>Don't Let Them Fall</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact" class="nav-cta">Free Assessment</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="hero-badge"><i class="ti ti-shield-check"></i> Trusted Hyderabad Elder Care</div>
+      <h1 class="hero-title">Safe & Comfortable<br><em>Living for Seniors</em></h1>
+      <div class="hero-tagline-line"><div class="tagline-dash"></div><div class="hero-tagline">Don't Let Them Fall</div><div class="tagline-dash"></div></div>
+      <p class="hero-subtitle">Compassionate elder care with safety, dignity, and love — right in the comfort of their own home in Hyderabad.</p>
+      <div class="hero-sub-tagline">Safer Homes. Stronger Lives. Happier Hearts.</div>
+      <div class="hero-btns">
+        <a class="btn-teal" href="tel:8897978170"><i class="ti ti-phone"></i> Call 8897978170</a>
+        <a class="btn-outline-w" href="https://wa.me/918897978170" target="_blank"><i class="ti ti-brand-whatsapp"></i> WhatsApp Us</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num">1,400+</div><div class="hero-stat-label">Families Served</div></div>
+        <div><div class="hero-stat-num">16 yrs</div><div class="hero-stat-label">Experience</div></div>
+        <div><div class="hero-stat-num">98%</div><div class="hero-stat-label">Satisfaction</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="{{ url_for('static', filename='IMG-20260520-WA0001.jpg') }}" alt="Flyer" class="hero-banner-img">
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-item"><i class="ti ti-certificate"></i> State Licensed</div>
+    <div class="trust-item"><i class="ti ti-user-check"></i> Verified Caregivers</div>
+    <div class="trust-item"><i class="ti ti-clock-24"></i> 24/7 Emergency Support</div>
+    <div class="trust-item"><i class="ti ti-heart"></i> Care · Safety · Dignity · Love</div>
+  </div>
+
+  <section class="services" id="services">
+    <div class="section-header">
+      <div class="section-label">Our Services</div>
+      <h2 class="section-title">Everything your loved one needs to stay safe at home</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon"><i class="ti ti-barrier-block"></i></div><div class="service-name">Anti-Slip Flooring</div><p class="service-desc">Non-slip surface treatments and mats to prevent dangerous slips at home.</p></div>
+      <div class="service-card"><div class="service-icon"><i class="ti ti-hand-grab"></i></div><div class="service-name">Grab Bar Installation</div><p class="service-desc">Bathroom and hallway grab bars installed securely by professionals.</p></div>
+      <div class="service-card"><div class="service-icon"><i class="ti ti-accessible"></i></div><div class="service-name">Wheelchair Ramps</div><p class="service-desc">Custom-built ramps for smooth, safe mobility throughout the home.</p></div>
+      <div class="service-card"><div class="service-icon"><i class="ti ti-bell-ringing"></i></div><div class="service-name">Emergency Alerts</div><p class="service-desc">Wearable alert systems so help is always just one press away.</p></div>
+      <div class="service-card"><div class="service-icon"><i class="ti ti-heart-handshake"></i></div><div class="service-name">Personalized Elder Care</div><p class="service-desc">Tailored daily care plans built around each elder's unique needs.</p></div>
+      <div class="service-card"><div class="service-icon"><i class="ti ti-home-search"></i></div><div class="service-name">Home Safety Consultation</div><p class="service-desc">Expert walkthrough of your home to identify and eliminate hazards.</p></div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-header"><div class="section-label">About Us</div><h2 class="section-title">We create safer homes for a worry-free tomorrow</h2></div>
+    <div class="about-grid">
+      <div>
+        <p class="about-para">At Elder-Safe Homes, we believe every elder deserves to live with independence, safety, and dignity inside their own home.</p>
+        <div class="about-values">
+          <div class="value-tag"><i class="ti ti-heart"></i> Compassion</div>
+          <div class="value-tag"><i class="ti ti-shield"></i> Safety First</div>
+        </div>
+      </div>
+      <div class="about-promise">
+        <div class="about-promise-title">Our Core Promise</div>
+        <div class="promise-item"><div class="promise-icon"><i class="ti ti-home-heart"></i></div><div class="promise-text">We create safer homes for a worry-free tomorrow.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials">
+    <div class="section-header"><div class="section-label">Testimonials</div><h2 class="section-title">Families we've helped across Hyderabad</h2></div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"After the grab bars and ramp were installed, my father regained his confidence."</p>
+        <div class="testimonial-author"><div class="author-avatar">SR</div><div><div class="author-name">Srinivas Rao</div><div class="author-rel">Kukatpally</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="section-header">
+      <div class="section-label">Contact & Location</div>
+      <h2 class="section-title">Reach out — we're here for your family</h2>
+    </div>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="contact-grid">
+      <div>
+        <div class="contact-info-item"><div class="contact-icon"><i class="ti ti-phone"></i></div><div><div class="contact-label">Call Us</div><div class="contact-value">8897978170</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon"><i class="ti ti-map-pin"></i></div><div><div class="contact-label">Address</div><div class="contact-value">H.no 2-22-2-82, Vasista Enclave, Flat No. 204, Kukatpally, Hyderabad</div></div></div>
+
+        <div class="map-wrap">
+          <iframe src="https://maps.google.com/maps?q=Vasista%20Enclave,%20Kukatpally,%20Hyderabad&t=&z=14&ie=UTF8&iwloc=&output=embed" title="Location"></iframe>
+        </div>
+      </div>
+
+      <div>
+        <div class="contact-card-form">
+          <form action="{{ url_for('submit_request') }}" method="POST">
+            <div class="contact-form-group">
+              <label>Your Name</label>
+              <input type="text" name="name" placeholder="e.g. Ravi Sharma" required />
+            </div>
+            <div class="contact-form-group">
+              <label>Phone Number</label>
+              <input type="tel" name="phone" placeholder="Your mobile number" required />
+            </div>
+            <div class="contact-form-group">
+              <label>Service Needed</label>
+              <select name="service" required>
+                <option value="">Select a service...</option>
+                <option value="Anti-Slip Flooring">Anti-Slip Flooring</option>
+                <option value="Grab Bar Installation">Grab Bar Installation</option>
+                <option value="Wheelchair Ramp">Wheelchair Ramp</option>
+                <option value="Emergency Alert System">Emergency Alert System</option>
+                <option value="Personalized Elder Care">Personalized Elder Care</option>
+              </select>
+            </div>
+            <div class="contact-form-group">
+              <label>Tell us about your loved one</label>
+              <textarea name="details" rows="4" placeholder="Age, concerns, specific needs..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit"><i class="ti ti-mail-forward"></i> Submit Request to SQL Database</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div><div class="footer-brand">Elder-Safe Homes</div><div class="footer-tagline">Don't Let Them Fall</div></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Elder-Safe Homes, Hyderabad. All rights reserved.</div>
+      <div class="footer-promise"><span>Care</span><span>·</span><span>Safety</span><span>·</span><span>Dignity</span><span>·</span><span>Love</span></div>
+    </div>
+  </footer>
+</body>
+</html>

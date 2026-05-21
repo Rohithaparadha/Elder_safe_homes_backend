@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elder-Safe Homes | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f6f8; color: #1a2d4a; padding: 2rem; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { margin-bottom: 1.5rem; font-size: 24px; border-bottom: 2px solid #2a7f8a; padding-bottom: 10px; color: #1a2d4a; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e1e4e8; }
+        th { background-color: #2a7f8a; color: white; font-weight: 600; }
+        tr:hover { background-color: #fafbfc; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; background: #e0f4f6; color: #1b5c65; }
+        .timestamp { color: #6b8199; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Elder-Safe Homes — Inbound Assessment Leads</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Timestamp</th>
+                    <th>Customer Name</th>
+                    <th>Contact Phone</th>
+                    <th>Requested Service</th>
+                    <th>Medical / Home Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lead in leads %}
+                <tr>
+                    <td>{{ lead['id'] }}</td>
+                    <td class="timestamp">{{ lead['created_at'] }}</td>
+                    <td><strong>{{ lead['name'] }}</strong></td>
+                    <td><a href="tel:{{ lead['phone'] }}">{{ lead['phone'] }}</a></td>
+                    <td><span class="badge">{{ lead['service'] }}</span></td>
+                    <td>{{ lead['details'] if lead['details'] else 'None provided' }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; color: #6b8199; padding: 2rem;">No submissions found in the SQL database yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
