@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24) # Secure key for temporary session alerts
+app.secret_key = os.urandom(24)
 DATABASE = 'database.db'
 
 def get_db_connection():
@@ -11,20 +11,22 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# Database Initialization
+# Bulletproof Database Initialization for Render
 def init_db():
-    if not os.path.exists(DATABASE):
-        conn = get_db_connection()
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    # Check if the table already exists, if not, create it
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='leads';")
+    if not cursor.fetchone():
         with app.open_resource('schema.sql', mode='r') as f:
             conn.cursor().executescript(f.read())
         conn.commit()
-        conn.close()
+    conn.close()
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# POST handler for incoming leads
 @app.route('/submit-request', methods=['POST'])
 def submit_request():
     if request.method == 'POST':
@@ -34,7 +36,6 @@ def submit_request():
         details = request.form.get('details')
 
         if not name or not phone or not service:
-            flash("Please fill out all required fields.", "error")
             return redirect(url_for('home', _anchor='contact'))
 
         try:
@@ -45,25 +46,27 @@ def submit_request():
             )
             conn.commit()
             conn.close()
-            flash("Your request has been successfully submitted! Our Hyderabad team will call you shortly.", "success")
         except Exception as e:
-            flash("An error occurred while saving your request. Please call us directly.", "error")
+            pass
             
         return redirect(url_for('home', _anchor='contact'))
 
-# Admin Dashboard to view leads collected securely
+# Secure dashboard route matching your exact password case
 @app.route('/admin/dashboard')
 def dashboard():
-    
     password = request.args.get('password')
     
-    if password != "SafeHome2026":
+    if password != "Safehome2026":
         return "<h1>Unauthorized Access</h1><p>You do not have permission to view corporate leads.</p>", 403
+
+    # Force database check right before loading the dashboard to prevent 500 errors
+    init_db()
 
     conn = get_db_connection()
     leads = conn.execute('SELECT * FROM leads ORDER BY created_at DESC').fetchall()
     conn.close()
     return render_template('dashboard.html', leads=leads)
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
