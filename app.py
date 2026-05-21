@@ -3,37 +3,28 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
-
-# Force Render to use its internal /tmp directory with read/write permissions
-DATABASE = '/tmp/database.db'
+app.secret_key = os.urandom(24) # Secure key for temporary session alerts
+DATABASE = 'database.db'
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
-# Completely self-contained database table setup
+# Database Initialization
 def init_db():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS leads (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            phone TEXT NOT NULL,
-            service TEXT NOT NULL,
-            details TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.commit()
-    conn.close()
+    if not os.path.exists(DATABASE):
+        conn = get_db_connection()
+        with app.open_resource('schema.sql', mode='r') as f:
+            conn.cursor().executescript(f.read())
+        conn.commit()
+        conn.close()
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
+# POST handler for incoming leads
 @app.route('/submit-request', methods=['POST'])
 def submit_request():
     if request.method == 'POST':
@@ -43,10 +34,10 @@ def submit_request():
         details = request.form.get('details')
 
         if not name or not phone or not service:
+            flash("Please fill out all required fields.", "error")
             return redirect(url_for('home', _anchor='contact'))
 
         try:
-            init_db()
             conn = get_db_connection()
             conn.execute(
                 'INSERT INTO leads (name, phone, service, details) VALUES (?, ?, ?, ?)',
@@ -54,26 +45,25 @@ def submit_request():
             )
             conn.commit()
             conn.close()
+            flash("Your request has been successfully submitted! Our Hyderabad team will call you shortly.", "success")
         except Exception as e:
-            pass
+            flash("An error occurred while saving your request. Please call us directly.", "error")
             
         return redirect(url_for('home', _anchor='contact'))
 
-# Secure dashboard route using your password
+# Admin Dashboard to view leads collected securely
 @app.route('/admin/dashboard')
 def dashboard():
+    # Simple URL query password protection (e.g., /admin/dashboard?password=SafeHome2026)
     password = request.args.get('password')
     
-    if password != "Safehome2026":
+    if password != "SafeHome2026": # Change "SafeHome2026" to your own secret password
         return "<h1>Unauthorized Access</h1><p>You do not have permission to view corporate leads.</p>", 403
-
-    init_db()
 
     conn = get_db_connection()
     leads = conn.execute('SELECT * FROM leads ORDER BY created_at DESC').fetchall()
     conn.close()
     return render_template('dashboard.html', leads=leads)
-
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
