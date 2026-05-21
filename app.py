@@ -11,16 +11,22 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# Bulletproof Database Initialization for Render
+# Self-contained database initialization (No schema.sql required)
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
-    # Check if the table already exists, if not, create it
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='leads';")
-    if not cursor.fetchone():
-        with app.open_resource('schema.sql', mode='r') as f:
-            conn.cursor().executescript(f.read())
-        conn.commit()
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            service TEXT NOT NULL,
+            details TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
     conn.close()
 
 @app.route('/')
@@ -39,6 +45,7 @@ def submit_request():
             return redirect(url_for('home', _anchor='contact'))
 
         try:
+            init_db() # Ensure table exists before inserting
             conn = get_db_connection()
             conn.execute(
                 'INSERT INTO leads (name, phone, service, details) VALUES (?, ?, ?, ?)',
@@ -59,7 +66,7 @@ def dashboard():
     if password != "Safehome2026":
         return "<h1>Unauthorized Access</h1><p>You do not have permission to view corporate leads.</p>", 403
 
-    # Force database check right before loading the dashboard to prevent 500 errors
+    # Force database check right before loading rows to guarantee stability
     init_db()
 
     conn = get_db_connection()
