@@ -4,18 +4,19 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-DATABASE = 'database.db'
+
+# Force Render to use its internal /tmp directory with read/write permissions
+DATABASE = '/tmp/database.db'
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
-# Self-contained database initialization (No schema.sql required)
+# Completely self-contained database table setup
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
-    
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS leads (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,7 +46,7 @@ def submit_request():
             return redirect(url_for('home', _anchor='contact'))
 
         try:
-            init_db() # Ensure table exists before inserting
+            init_db()
             conn = get_db_connection()
             conn.execute(
                 'INSERT INTO leads (name, phone, service, details) VALUES (?, ?, ?, ?)',
@@ -58,7 +59,7 @@ def submit_request():
             
         return redirect(url_for('home', _anchor='contact'))
 
-# Secure dashboard route matching your exact password case
+# Secure dashboard route using your password
 @app.route('/admin/dashboard')
 def dashboard():
     password = request.args.get('password')
@@ -66,7 +67,6 @@ def dashboard():
     if password != "Safehome2026":
         return "<h1>Unauthorized Access</h1><p>You do not have permission to view corporate leads.</p>", 403
 
-    # Force database check right before loading rows to guarantee stability
     init_db()
 
     conn = get_db_connection()
